@@ -1,70 +1,60 @@
-﻿namespace T08
+﻿namespace T09
 {
     internal class Program
     {
         static void Main(string[] args)
         {
-            int exHour = int.Parse(Console.ReadLine());
-            int exMins = int.Parse(Console.ReadLine());
-            int arrHour = int.Parse(Console.ReadLine());
-            int arrMins = int.Parse(Console.ReadLine());
-
-            String status = "";
-
-            int exTimeMins = exHour * 60 + exMins;
-            int arrTimeMins = arrHour * 60 + arrMins;
-            int difference = arrTimeMins - exTimeMins;
-
-
-            if (-30 <= difference && difference <= 0)
+            int days = int.Parse(Console.ReadLine());
+            String roomType = Console.ReadLine();
+            String assessment = Console.ReadLine();
+            double roomPrice = 0.0;
+            switch (roomType)
             {
-                status = "On time";
-            }
-            else if (difference > 0)
-            {
-                status = "Late";
-            }
-            else if (-30 > difference)
-            {
-                status = "Early";
-            }
+                case "room for one person":
+                    roomPrice = (days - 1) * 118;
+                    break;
 
-            Console.WriteLine(status);
-
-            difference = Math.Abs(difference);
-            int difhours;
-            int difMinutes;
-            difhours = difference / 60;
-            difMinutes = difference % 60;
-
-            switch (status)
-            {
-                case "Early":
-                    if (difference >= 60)
+                case "apartment":
+                    roomPrice = (days - 1) * 155;
+                    if (days < 10)
                     {
-                        Console.WriteLine($"{difhours}:{difMinutes} hours before the start");
+                        roomPrice *= 0.7;
+                    }
+                    else if (10 < days && days < 15)
+                    {
+                        roomPrice *= 0.65;
+                    }
+                    else if (days > 15)
+                    {
+                        roomPrice *= 0.5;
+                    }
+                    break;
+
+
+                case "president apartment":
+                    roomPrice = (days - 1) * 235;
+                    if (days < 10)
+                    {
+                        roomPrice *= 0.9;
+                    }
+                    else if (10 < days && days < 15)
+                    {
+                        roomPrice *= 0.85;
+                    }
+                    else if (days > 15)
+                    {
+                        roomPrice *= 0.8;
+                    }
+                    break;
+
+            } if (assessment == "positive")
+                    {
+                        roomPrice *= 1.25;
                     }
                     else
-                        Console.WriteLine($"{difMinutes} minutes before the start");
-                    break;
-
-                case "On time":
-                    if (difference > 0)
-                    {
-                        Console.WriteLine($"{difMinutes} minutes before the start");
-                    }                        
-                    break;
-
-                case "Late":
-                    if (difference >= 60)
-                    {
-                        Console.WriteLine($"{difhours}:{difMinutes} hours after the start");
-                    }
-                    else
-                        Console.WriteLine($"{difMinutes} minutes after the start");
-                    break;
-
-            }
+                        roomPrice *= 0.9;
+            
+            Console.WriteLine(roomPrice.ToString("F2"));
         }
     }
 }
